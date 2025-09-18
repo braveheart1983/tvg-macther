@@ -19,7 +19,9 @@ jobs:
           node-version: '20'
 
       - name: Install Dependencies
-        run: npm install
+        run: |
+          npm install
+          npm install puppeteer --force
 
       - name: Run EPG Script
         run: node index.js
