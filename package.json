@@ -1,5 +1,5 @@
 ﻿{
-  "name": "tvepg-fetcher",
+  "name": "tvg-macther",
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
@@ -11,3 +11,4 @@
     "dayjs": "^1.11.9"
   }
 }
+
