@@ -1,14 +1,13 @@
-name: Update EPG XML
+name: EPG Generator
 
 on:
   schedule:
-    - cron: '0 * * * *' # Her saat başı çalışır
-  workflow_dispatch: # Manuel tetikleme
+    - cron: '0 * * * *'  # Her saat başı çalışacak
+  workflow_dispatch:
 
 jobs:
   build:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v3
@@ -19,17 +18,15 @@ jobs:
           node-version: '20'
 
       - name: Install Dependencies
-        run: |
-          npm install
-          npm install puppeteer --force
+        run: npm install
 
-      - name: Run EPG Script
-        run: node index.js
+      - name: Fetch and Convert EPG
+        run: node fetchAndConvertEpg.js
 
-      - name: Commit & Push XML
+      - name: Commit & Push EPG
         run: |
-          git config --local user.email "github-actions[bot]@users.noreply.github.com"
-          git config --local user.name "github-actions[bot]"
+          git config --global user.name 'GitHub Actions'
+          git config --global user.email 'actions@github.com'
           git add epg.xml
-          git commit -m "Update EPG XML" || echo "No changes"
+          git commit -m 'Update EPG' || echo "No changes"
           git push
