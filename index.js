@@ -1,1 +1,74 @@
-// index.jsconst axios = require('axios');const cheerio = require('cheerio');const dayjs = require('dayjs');const fs = require('fs');async function fetchChannels() {  try {    const { data } = await axios.get('https://tvepg.eu/tr/turkey/epg', {      headers: {        'User-Agent': 'Mozilla/5.0'      }    });    const $ = cheerio.load(data);    const channels = [];    $('ul.grid-left-channels li.amr-tvgrid-ceil-left').each((_, element) => {      const link = $(element).find('a');      const channelName = link.attr('title');      const channelId = link.attr('href').split('/').pop();      if (channelName && channelId) {        channels.push({ name: channelName, site_id: channelId });      }    });    return channels;  } catch (err) {    console.error('Kanal listesi alınamadı:', err.message);    return [];  }}async function fetchEPG(channelId) {  try {    const { data } = await axios.get(`https://tvepg.eu/tr/turkey/channel/${channelId}/epg`, {      headers: {        'User-Agent': 'Mozilla/5.0'      }    });    const $ = cheerio.load(data);    const programs = [];    $('tr[itemprop="publication"]').each((_, el) => {      const startTime = $(el).find('h5[itemprop="startDate"]').attr('content');      const title = $(el).find('h6[itemprop="name"] a').text().trim();      const description = $(el).find('span[itemprop="description"] .description-text').text().trim();      if (startTime && title) {        programs.push({          startTime,          title,          description        });      }    });    return programs;  } catch (err) {    console.error(`EPG alınamadı: ${channelId}`, err.message);    return [];  }}function jsonToXmltv(json) {  let xml = '<?xml version="1.0" encoding="UTF-8"?>\n<tv>\n';  for (const channelName in json) {    const channelId = channelName.replace(/\s+/g, '');    xml += `  <channel id="${channelId}">\n    <display-name>${channelName}</display-name>\n  </channel>\n`;    json[channelName].forEach(program => {      const start = dayjs(program.startTime).format('YYYYMMDDHHmmss Z').replace(':', '');      const stop = dayjs(program.startTime).add(1, 'hour').format('YYYYMMDDHHmmss Z').replace(':', '');      xml += `  <programme start="${start}" stop="${stop}" channel="${channelId}">\n`;      xml += `    <title>${program.title}</title>\n`;      xml += `    <desc>${program.description}</desc>\n`;      xml += `  </programme>\n`;    });  }  xml += '</tv>';  return xml;}(async () => {  const channels = await fetchChannels();  const epgData = {};  for (const channel of channels) {    console.log(`EPG alınıyor: ${channel.name}`);    epgData[channel.name] = await fetchEPG(channel.site_id);  }  const xml = jsonToXmltv(epgData);  fs.writeFileSync('epg.xml', xml, 'utf-8');  console.log('EPG XML oluşturuldu: epg.xml');})();
+const fs = require('fs');
+const puppeteer = require('puppeteer');
+const dayjs = require('dayjs');
+
+(async () => {
+  const browser = await puppeteer.launch({
+    args: ['--no-sandbox', '--disable-setuid-sandbox']
+  });
+  const page = await browser.newPage();
+
+  // 1️⃣ Türkiye kanallarını otomatik çek
+  await page.goto('https://tvepg.eu/tr/turkey/epg', { waitUntil: 'networkidle2' });
+  await page.waitForTimeout(3000); // AJAX yüklenmesi için bekle
+
+  const channelsList = await page.evaluate(() => {
+    const list = [];
+    document.querySelectorAll('ul.grid-left-channels li.amr-tvgrid-ceil-left a').forEach(a => {
+      const name = a.getAttribute('title');
+      const href = a.getAttribute('href');
+      if (name && href) {
+        list.push({ 
+          name, 
+          url: `https://tvepg.eu${href}` 
+        });
+      }
+    });
+    return list;
+  });
+
+  console.log(`Toplam kanal bulundu: ${channelsList.length}`);
+
+  // 2️⃣ Her kanalın EPG'sini çek
+  const epgData = {};
+  for (const channel of channelsList) {
+    console.log(`EPG alınıyor: ${channel.name}`);
+    await page.goto(channel.url, { waitUntil: 'networkidle2' });
+    await page.waitForTimeout(3000);
+
+    const programs = await page.evaluate(() => {
+      const rows = Array.from(document.querySelectorAll('tr[itemprop="publication"]'));
+      return rows.map(row => {
+        const start = row.querySelector('h5[itemprop="startDate"]')?.getAttribute('content') || '';
+        const title = row.querySelector('h6[itemprop="name"] a')?.innerText.trim() || '';
+        const desc = row.querySelector('span[itemprop="description"] .description-text')?.innerText.trim() || '';
+        return { start, title, description: desc };
+      });
+    });
+
+    epgData[channel.name] = programs;
+  }
+
+  await browser.close();
+
+  // 3️⃣ JSON → XMLTV
+  let xml = '<?xml version="1.0" encoding="UTF-8"?>\n<tv>\n';
+  for (const channelName in epgData) {
+    const channelId = channelName.replace(/\s+/g, '');
+    xml += `  <channel id="${channelId}">\n    <display-name>${channelName}</display-name>\n  </channel>\n`;
+
+    epgData[channelName].forEach(p => {
+      if (!p.start || !p.title) return;
+      const start = dayjs(p.start).format('YYYYMMDDHHmmss Z').replace(':', '');
+      const stop = dayjs(p.start).add(1, 'hour').format('YYYYMMDDHHmmss Z').replace(':', '');
+      xml += `  <programme start="${start}" stop="${stop}" channel="${channelId}">\n`;
+      xml += `    <title>${p.title}</title>\n`;
+      xml += `    <desc>${p.description}</desc>\n`;
+      xml += `  </programme>\n`;
+    });
+  }
+  xml += '</tv>';
+
+  fs.writeFileSync('epg.xml', xml, 'utf-8');
+  console.log('EPG XML oluşturuldu: epg.xml');
+})();
