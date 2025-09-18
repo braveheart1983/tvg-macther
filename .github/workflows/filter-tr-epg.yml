@@ -1,4 +1,4 @@
-name: Filter TR EPG
+name: Filter TR EPG Python
 
 on:
   schedule:
@@ -12,16 +12,18 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v3
 
-      - name: Setup Node
-        uses: actions/setup-node@v3
+      - name: Setup Python
+        uses: actions/setup-python@v4
         with:
-          node-version: '20'
+          python-version: '3.11'
 
       - name: Install dependencies
-        run: npm install
+        run: |
+          python -m pip install --upgrade pip
+          pip install requests
 
       - name: Download & Filter TR EPG
-        run: node filterTrEpg.js
+        run: python filter_tr_epg.py
 
       - name: Commit & Push TR EPG
         run: |
