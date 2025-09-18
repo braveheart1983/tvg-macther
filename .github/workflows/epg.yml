@@ -2,7 +2,7 @@ name: EPG Generator
 
 on:
   schedule:
-    - cron: '0 * * * *'  # Her saat başı çalışacak
+    - cron: '0 * * * *' # Her saat başı
   workflow_dispatch:
 
 jobs:
