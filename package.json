@@ -1,12 +1,14 @@
 {
   "name": "tvg-macther",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "fetchAndConvertEpg.js",
   "scripts": {
-    "start": "node index.js"
+    "start": "node fetchAndConvertEpg.js"
   },
   "dependencies": {
-    "puppeteer": "^21.3.8",
-    "dayjs": "^1.11.9"
+    "axios": "^1.6.0",
+    "xml2js": "^0.5.0",
+    "dayjs": "^1.11.9",
+    "puppeteer": "^24.10.2"
   }
 }
