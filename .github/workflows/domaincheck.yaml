@@ -46,6 +46,7 @@ jobs:
         python3 -c "
         import requests
         import os
+        from datetime import datetime
         
         def check_domain(domain):
             try:
@@ -95,11 +96,14 @@ jobs:
             selected_domain = 'https://trgoals1397.xyz/'
             print(f'Hiç çalışan domain bulunamadı, varsayılan kullanılacak: {selected_domain}')
         
-        # domain.txt'yi güncelle (her zaman)
+        # domain.txt'yi güncelle (hem domain hem de zaman etiketi ile)
+        current_time = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
         with open('domain.txt', 'w') as f:
-            f.write(f'guncel_domain={selected_domain}')
+            f.write(f'guncel_domain={selected_domain}\\n')
+            f.write(f'Güncel domain: {current_time}\\n')
         
         print(f'Seçilen domain: {selected_domain}')
+        print(f'Zaman etiketi eklendi: {current_time}')
         "
 
     - name: Commit and push changes
@@ -112,7 +116,8 @@ jobs:
         if git diff --staged --quiet; then
           echo "Değişiklik yok, commit atlanıyor"
         else
-          git commit -m "Güncel domain: $(date '+%Y-%m-%d %H:%M:%S')"
+          CURRENT_TIME=$(date '+%Y-%m-%d %H:%M:%S')
+          git commit -m "Güncel domain: $CURRENT_TIME"
           git push
           echo "Değişiklikler push edildi"
         fi
