@@ -30,12 +30,11 @@ jobs:
       run: |
         # Mevcut domaini al veya varsayılanı kullan
         if [ -f "domain.txt" ]; then
-          CURRENT_DOMAIN=$(grep -o 'guncel_domain=.*' domain.txt | cut -d'=' -f2)
+          CURRENT_DOMAIN=$(grep -o 'Adres: .*' domain.txt | cut -d' ' -f2)
           echo "Mevcut domain: $CURRENT_DOMAIN"
         else
           CURRENT_DOMAIN="https://trgoals1397.xyz/"
           echo "Yeni domain.txt oluşturuluyor: $CURRENT_DOMAIN"
-          echo "guncel_domain=$CURRENT_DOMAIN" > domain.txt
         fi
 
         # Domain numarasını al
@@ -44,62 +43,47 @@ jobs:
 
         # Akıllı domain kontrolü için Python scripti
         python3 -c "
-        import requests
-        import os
-        
-        def check_domain(domain):
-            try:
-                response = requests.get(domain, timeout=5, allow_redirects=True)
-                return response.status_code == 200
-            except:
-                return False
-        
-        start_domain_number = $DOMAIN_NUMBER
-        print(f'Başlangıç domain numarası: {start_domain_number}')
-        
-        # EN GÜNCEL çalışan domaini bulana kadar kontrol et
-        max_check = 10  # Maksimum 10 domain ilerisine bak
-        latest_working_domain = None
-        latest_domain_number = start_domain_number
-        
-        for i in range(max_check):
-            current_check_domain = f'https://trgoals{start_domain_number + i}.xyz/'
-            is_active = check_domain(current_check_domain)
-            print(f'Domain {start_domain_number + i} kontrol: {current_check_domain} - Aktif: {is_active}')
-            
-            if is_active:
-                latest_working_domain = current_check_domain
-                latest_domain_number = start_domain_number + i
-                # Çalışan bulduk ama BİR ÜSTÜNÜ de kontrol edeceğiz
-            else:
-                # Çalışmayan domain, bir önceki çalışanı kullan
-                break
-        
-        # Şimdi EN SON çalışan domainin BİR ÜSTÜNÜ kontrol et
-        if latest_working_domain:
-            next_domain = f'https://trgoals{latest_domain_number + 1}.xyz/'
-            next_active = check_domain(next_domain)
-            print(f'En son çalışan domain: {latest_working_domain}')
-            print(f'Bir üst domain kontrol: {next_domain} - Aktif: {next_active}')
-            
-            if next_active:
-                # Bir üst domain de çalışıyorsa, ONU kullan
-                selected_domain = next_domain
-                print(f'Bir üst domain aktif, kullanılacak: {selected_domain}')
-            else:
-                # Bir üst çalışmıyorsa, en son çalışanı kullan
-                selected_domain = latest_working_domain
-                print(f'Bir üst domain aktif değil, en son çalışan kullanılacak: {selected_domain}')
-        else:
-            # Hiç çalışan domain bulunamadı, varsayılanı kullan
-            selected_domain = 'https://trgoals1397.xyz/'
-            print(f'Hiç çalışan domain bulunamadı, varsayılan kullanılacak: {selected_domain}')
-        
-        # domain.txt'yi güncelle (her zaman)
-        with open('domain.txt', 'w') as f:
-            f.write(f'guncel_domain={selected_domain}')
-        
-        print(f'Seçilen domain: {selected_domain}')
+import requests
+from datetime import datetime
+
+def check_domain(domain):
+    try:
+        response = requests.get(domain, timeout=5, allow_redirects=True)
+        return response.status_code == 200
+    except:
+        return False
+
+start_domain_number = $DOMAIN_NUMBER
+latest_working_domain = None
+latest_domain_number = start_domain_number
+
+# Maksimum 10 domain ilerisine bak
+for i in range(10):
+    current_check_domain = f'https://trgoals{start_domain_number + i}.xyz/'
+    is_active = check_domain(current_check_domain)
+    print(f'Domain {start_domain_number + i} kontrol: {current_check_domain} - Aktif: {is_active}')
+    if is_active:
+        latest_working_domain = current_check_domain
+        latest_domain_number = start_domain_number + i
+    else:
+        break
+
+# En son çalışan domainin bir üstünü kontrol et
+if latest_working_domain:
+    next_domain = f'https://trgoals{latest_domain_number + 1}.xyz/'
+    if check_domain(next_domain):
+        selected_domain = next_domain
+    else:
+        selected_domain = latest_working_domain
+else:
+    selected_domain = 'https://trgoals1397.xyz/'
+
+# domain.txt'yi güncelle (her zaman)
+with open('domain.txt', 'w') as f:
+    f.write(f'Güncel domain: {datetime.now().strftime(\"%Y-%m-%d %H:%M:%S\")}\n')
+    f.write(f'Adres: {selected_domain}\n')
+
+print(f'Seçilen domain: {selected_domain}')
         "
 
     - name: Commit and push changes
@@ -107,12 +91,8 @@ jobs:
         git config user.name "github-actions"
         git config user.email "github-actions@github.com"
         git add domain.txt
-        
-        # Değişiklik varsa commit et
-        if git diff --staged --quiet; then
-          echo "Değişiklik yok, commit atlanıyor"
-        else
-          git commit -m "Güncel domain: $(date '+%Y-%m-%d %H:%M:%S')"
-          git push
-          echo "Değişiklikler push edildi"
-        fi
+
+        # Her zaman commit at (zaten timestamp değişiyor)
+        git commit -m "Güncel domain: $(date '+%Y-%m-%d %H:%M:%S')" || echo "Commit yok, zaten güncel"
+        git push
+        echo "Değişiklikler push edildi"
