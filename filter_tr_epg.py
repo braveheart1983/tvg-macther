@@ -8,7 +8,6 @@ GitHub: https://github.com/fraudiay79/strm
 import sys
 import requests
 from xml.etree import ElementTree as ET
-from typing import List, Dict, Optional
 import logging
 from datetime import datetime
 
@@ -17,14 +16,14 @@ logging.basicConfig(
     level=logging.INFO,
     format='%(asctime)s - %(levelname)s - %(message)s',
     handlers=[
-        logging.FileHandler('tr_kanal_filter.log'),
+        logging.FileHandler('tr_epg_filter.log'),
         logging.StreamHandler()
     ]
 )
 logger = logging.getLogger(__name__)
 
-class TRChannelFilter:
-    """Türk kanallarını filtreleyen sınıf"""
+class TREpgFilter:
+    """Türk kanallarını filtreleyerek tr-epg.xml oluşturan sınıf"""
     
     def __init__(self, url: str):
         self.url = url
@@ -40,23 +39,16 @@ class TRChannelFilter:
     def fetch_xml(self) -> bool:
         """XML dosyasını indir"""
         try:
-            logger.info(f"XML indiriliyor: {self.url}")
+            logger.info(f"EPG kaynağı indiriliyor: {self.url}")
             response = requests.get(self.url, timeout=30)
             response.raise_for_status()
             
-            # Encoding kontrolü
-            if response.encoding is None:
-                response.encoding = 'utf-8'
-                
             self.channels_xml = response.content
             logger.info(f"XML başarıyla indirildi ({len(self.channels_xml)} bytes)")
             return True
             
         except requests.exceptions.RequestException as e:
             logger.error(f"İndirme hatası: {e}")
-            return False
-        except Exception as e:
-            logger.error(f"Beklenmeyen hata: {e}")
             return False
     
     def parse_and_filter(self) -> bool:
@@ -66,10 +58,7 @@ class TRChannelFilter:
                 logger.error("Önce XML indirilmelidir")
                 return False
             
-            # XML'i parse et
             root = ET.fromstring(self.channels_xml)
-            
-            # Tüm kanalları bul
             all_channels = root.findall('channel')
             self.stats['total_channels'] = len(all_channels)
             
@@ -77,21 +66,13 @@ class TRChannelFilter:
             for channel in all_channels:
                 xmltv_id = channel.attrib.get('xmltv_id', '')
                 
-                # Türk kanalı kontrolü (sonu .tr ile biten)
                 if xmltv_id.endswith('.tr'):
-                    channel_data = {
-                        'element': channel,
-                        'name': channel.text.strip() if channel.text else '',
-                        'xmltv_id': xmltv_id,
-                        'site': channel.attrib.get('site', ''),
-                        'lang': channel.attrib.get('lang', '')
-                    }
-                    self.filtered_channels.append(channel_data)
+                    self.filtered_channels.append(channel)
             
             self.stats['tr_channels'] = len(self.filtered_channels)
             
             if self.filtered_channels:
-                logger.info(f"{self.stats['tr_channels']}/{self.stats['total_channels']} TR kanalı bulundu")
+                logger.info(f"{self.stats['tr_channels']} TR kanalı bulundu")
                 return True
             else:
                 logger.warning("Hiç TR kanalı bulunamadı")
@@ -100,40 +81,47 @@ class TRChannelFilter:
         except ET.ParseError as e:
             logger.error(f"XML parse hatası: {e}")
             return False
-        except Exception as e:
-            logger.error(f"Filtreleme hatası: {e}")
-            return False
     
-    def create_output_xml(self, output_file: str = 'tr-kanallar.xml') -> bool:
-        """Filtrelenmiş kanalları XML dosyasına yaz"""
+    def create_tr_epg_xml(self) -> bool:
+        """Filtrelenmiş kanalları tr-epg.xml dosyasına yaz"""
         try:
-            # Yeni kök elementi oluştur
-            new_root = ET.Element('channels')
-            
-            # Metadata ekle
-            metadata = ET.SubElement(new_root, 'metadata')
-            ET.SubElement(metadata, 'generated').text = datetime.now().isoformat()
-            ET.SubElement(metadata, 'source_url').text = self.url
-            ET.SubElement(metadata, 'total_channels').text = str(self.stats['total_channels'])
-            ET.SubElement(metadata, 'filtered_channels').text = str(self.stats['tr_channels'])
-            ET.SubElement(metadata, 'filter_criteria').text = "xmltv_id ends with '.tr'"
+            # TV-B XML formatında kök element oluştur
+            new_root = ET.Element('tv')
+            new_root.set('source-info-name', 'github.com/fraudiay79/strm')
+            new_root.set('source-info-url', self.url)
+            new_root.set('generator-info-name', 'TREpgFilter')
+            new_root.set('generator-info-url', '')
             
             # Filtrelenmiş kanalları ekle
-            channels_section = ET.SubElement(new_root, 'filtered_channels')
-            for channel_data in self.filtered_channels:
-                # Orijinal kanal elementini kopyala
-                channels_section.append(channel_data['element'])
+            for channel in self.filtered_channels:
+                # Orijinal kanalı yeni formata dönüştür
+                channel_element = ET.SubElement(new_root, 'channel')
+                channel_element.set('id', channel.attrib.get('xmltv_id', ''))
+                
+                # Display-name ekle
+                display_name = ET.SubElement(channel_element, 'display-name')
+                display_name.set('lang', channel.attrib.get('lang', 'tr'))
+                display_name.text = channel.text.strip() if channel.text else ''
+                
+                # Icon ekle (site bilgisinden)
+                site = channel.attrib.get('site', '')
+                if site:
+                    icon = ET.SubElement(channel_element, 'icon')
+                    icon.set('src', f"https://{site}/favicon.ico")
             
             # XML'i formatlı şekilde yaz
             tree = ET.ElementTree(new_root)
             
-            # Güzel formatlama için
+            # Güzel formatlama için indent ekle
             self._indent(new_root)
             
             # Dosyaya yaz
-            tree.write(output_file, encoding='utf-8', xml_declaration=True)
+            with open('tr-epg.xml', 'wb') as f:
+                f.write(b'<?xml version="1.0" encoding="UTF-8"?>\n')
+                f.write(b'<!DOCTYPE tv SYSTEM "xmltv.dtd">\n')
+                tree.write(f, encoding='utf-8', xml_declaration=False)
             
-            logger.info(f"Çıktı dosyası oluşturuldu: {output_file}")
+            logger.info(f"tr-epg.xml dosyası oluşturuldu ({len(self.filtered_channels)} kanal)")
             return True
             
         except Exception as e:
@@ -156,49 +144,61 @@ class TRChannelFilter:
             if level and (not elem.tail or not elem.tail.strip()):
                 elem.tail = indent
     
-    def print_statistics(self):
-        """İstatistikleri yazdır"""
-        print("\n" + "="*50)
-        print("TR KANAL FİLTRELEME İSTATİSTİKLERİ")
-        print("="*50)
-        print(f"Kaynak URL: {self.url}")
-        print(f"Toplam Kanal: {self.stats['total_channels']}")
-        print(f"TR Kanal Sayısı: {self.stats['tr_channels']}")
-        print(f"Filtreleme Oranı: {self.stats['tr_channels']/self.stats['total_channels']*100:.1f}%")
+    def print_summary(self):
+        """Özet bilgileri yazdır"""
+        print("\n" + "="*60)
+        print("TR EPG FİLTRELEME SONUCU")
+        print("="*60)
+        print(f"🔗 Kaynak: {self.url}")
+        print(f"📊 Toplam Kanal: {self.stats['total_channels']}")
+        print(f"🇹🇷 TR Kanal Sayısı: {self.stats['tr_channels']}")
         
         if self.filtered_channels:
-            print("\nBULUNAN TR KANALLARI:")
-            print("-"*50)
-            for i, channel in enumerate(self.filtered_channels[:20], 1):  # İlk 20 kanal
-                print(f"{i:3}. {channel['name'][:40]:40} | ID: {channel['xmltv_id']}")
+            print(f"\n📺 BULUNAN TR KANALLARI ({len(self.filtered_channels)}):")
+            print("-"*60)
             
-            if len(self.filtered_channels) > 20:
-                print(f"... ve {len(self.filtered_channels) - 20} kanal daha")
+            # Kanal listesini gruplar halinde göster
+            channels_per_line = 2
+            for i in range(0, len(self.filtered_channels), channels_per_line):
+                line_channels = self.filtered_channels[i:i+channels_per_line]
+                line_text = ""
+                for j, channel in enumerate(line_channels):
+                    name = channel.text.strip() if channel.text else "İsimsiz"
+                    xmltv_id = channel.attrib.get('xmltv_id', '')
+                    line_text += f"  • {name:<25} ({xmltv_id})"
+                    if j < len(line_channels) - 1:
+                        line_text += " | "
+                print(line_text)
     
-    def run(self, output_file: str = 'tr-kanallar.xml') -> bool:
+    def run(self) -> bool:
         """Ana çalıştırma fonksiyonu"""
         self.stats['start_time'] = datetime.now()
         
-        logger.info("TR kanal filtreme başlatılıyor...")
+        print("🔄 TR EPG filtreme başlatılıyor...")
         
         # 1. XML'i indir
         if not self.fetch_xml():
+            print("❌ XML indirme başarısız")
             return False
         
         # 2. Parse et ve filtrele
         if not self.parse_and_filter():
+            print("⚠️  TR kanal bulunamadı")
             return False
         
-        # 3. Çıktı dosyasını oluştur
-        if not self.create_output_xml(output_file):
+        # 3. tr-epg.xml dosyasını oluştur
+        if not self.create_tr_epg_xml():
+            print("❌ EPG dosyası oluşturulamadı")
             return False
         
-        # 4. İstatistikleri yazdır
+        # 4. Özet göster
         self.stats['end_time'] = datetime.now()
         duration = (self.stats['end_time'] - self.stats['start_time']).total_seconds()
         
-        self.print_statistics()
-        logger.info(f"İşlem {duration:.2f} saniyede tamamlandı")
+        self.print_summary()
+        print(f"\n✅ İşlem {duration:.2f} saniyede tamamlandı")
+        print(f"💾 Çıktı: tr-epg.xml")
+        print(f"📋 Log: tr_epg_filter.log")
         
         return True
 
@@ -208,28 +208,22 @@ def main():
     
     # Konfigürasyon
     SOURCE_URL = "https://raw.githubusercontent.com/fraudiay79/strm/refs/heads/main/epg/channels/channels.xml"
-    OUTPUT_FILE = "tr-kanallar.xml"
     
     print("="*60)
-    print("TR Kanal Filtreleme Scripti v1.0")
+    print("TR EPG Filtreleme Scripti v1.1")
     print("="*60)
     
     # Filtreleyici oluştur ve çalıştır
-    filter = TRChannelFilter(SOURCE_URL)
+    epg_filter = TREpgFilter(SOURCE_URL)
     
     try:
-        success = filter.run(OUTPUT_FILE)
+        success = epg_filter.run()
         
-        if success:
-            print(f"\n✅ İşlem başarıyla tamamlandı!")
-            print(f"📁 Çıktı dosyası: {OUTPUT_FILE}")
-            print(f"📊 Log dosyası: tr_kanal_filter.log")
-        else:
-            print(f"\n❌ İşlem başarısız oldu. Log dosyasını kontrol edin.")
+        if not success:
             sys.exit(1)
             
     except KeyboardInterrupt:
-        print("\n\n⏹️ İşlem kullanıcı tarafından durduruldu.")
+        print("\n\n⏹️ İşlem durduruldu")
         sys.exit(0)
     except Exception as e:
         logger.error(f"Ana fonksiyon hatası: {e}")
