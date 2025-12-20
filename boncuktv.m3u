@@ -1,10 +1,16 @@
 #EXTM3U
 #EXTINF:-1 group-title="ULUSAL" tvg-id="TRT1.tr" tvg-logo="https://cdn.technettv.com/channel/19958/logo_256_1699961525.png" ,TRT 1
 https://boncuktv.sende-mi-brutus.workers.dev/trt1
+#EXTINF:-1 group-title="ULUSAL" tvg-id="TRT1.tr" tvg-logo="https://cdn.technettv.com/channel/19958/logo_256_1699961525.png" ,TRT 1 (Alternatif)
+https://trt.daioncdn.net/trt-1/master.m3u8?app=clean
+#EXTINF:-1 group-title="ULUSAL" tvg-id="TRT1.tr" tvg-logo="https://cdn.technettv.com/channel/19958/logo_256_1699961525.png" ,TRT 1 (Alternatif 2)
+https://trt.daioncdn.net/trt-1/master_1080p.m3u8?&sid=7lt9umlk1uqx&app=ed3904e8-737b-4a5e-856a-1b0d7a0a94e2&ce=2
 #EXTINF:-1 group-title="ULUSAL" tvg-id="TRT2.tr" tvg-logo="https://cdn.technettv.com/channel/20315/logo_256_1699961575.png" ,TRT 2
 https://boncuktv.sende-mi-brutus.workers.dev/trt2
 #EXTINF:-1 group-title="ULUSAL" tvg-id="ShowTV.tr" tvg-logo="https://cdn.technettv.com/channel/29716/logo_256_1734935547.jpg" ,Show TV
 https://boncuktv.sende-mi-brutus.workers.dev/showtv
+#EXTINF:-1 group-title="ULUSAL" tvg-id="ShowTV.tr" tvg-logo="https://cdn.technettv.com/channel/29716/logo_256_1734935547.jpg" ,Show TV (alternatif)
+https://rmtftbjlne.turknet.ercdn.net/bpeytmnqyp/showtv/showtv.m3u8
 #EXTINF:-1 group-title="ULUSAL" tvg-id="StarTV.tr" tvg-logo="https://cdn.technettv.com/channel/20567/logo_256_1699960596.png" ,Star TV
 https://boncuktv.sende-mi-brutus.workers.dev/startv
 #EXTINF:-1 group-title="ULUSAL" tvg-id="StarTV.tr" tvg-logo="https://cdn.technettv.com/channel/20567/logo_256_1699960596.png" ,Star TV (alternatif
@@ -252,7 +258,7 @@ https://live.artidijitalmedya.com/artidijital_cine1/cine1/playlist.m3u8
 #EXTINF:-1 group-title="SİNEMA" tvg-id="ŞabanTV" tvg-logo="https://image.winudf.com/v2/image1/c2FiYW4udHZfaWNvbl8xNjAzODczNDgxXzAxMw/icon.png?w=280&fakeurl=1" ,Şaban TV
 https://catcast-tv.koprulu2.workers.dev/?id=49905.m3u8
 #EXTINF:-1 tvg-logo="https://tvlogo.nl/files/ch/TR/sinema_tv.png" group-title="SİNEMA",SINEMA TV FHD
-http://plusjustone.xyz:8080/play/live.php?mac=00:2A:01:90:E8:E5&stream=591415&extension=m3u8
+http://plusjustone.xyz:8080/play/live.php?mac=00:2A:01:90:E8:E5&stream=591415&extension=ts
 #EXTINF:-1 tvg-logo="https://tvlogo.nl/files/ch/TR/sinema_tv.png" group-title="SİNEMA",SINEMA TV HD
 http://plusjustone.xyz:8080/play/live.php?mac=00:2A:01:90:E8:E5&stream=591414&extension=ts
 #EXTINF:-1 tvg-logo="https://tvlogo.nl/files/ch/TR/sinema_tv_2.png" group-title="SİNEMA",SINEMA TV 2 FHD
