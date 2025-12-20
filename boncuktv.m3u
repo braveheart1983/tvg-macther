@@ -83,9 +83,9 @@ https://boncuktv.sende-mi-brutus.workers.dev/aspor
 https://boncuktv.sende-mi-brutus.workers.dev/htsports
 #EXTINF:-1 group-title="SPOR" tvg-id="SportsTV.tr" tvg-logo="https://cdn.technettv.com/channel/33258/logo_256.jpg" ,Sports TV
 https://boncuktv.sende-mi-brutus.workers.dev/sportstv
-#EXTINF:-1 group-title="SPOR" tvg-id="TRTSporYildiz.tr" tvg-logo="https://www.trtspor.com.tr/images/logo.png" ,TRT Spor Yıldız
+#EXTINF:-1 group-title="SPOR" tvg-id="TRTSporYildiz.tr" tvg-logo="http://ginikoturkish.com/channels/logo/trt-spor-yildiz-epg-.png" ,TRT Spor Yıldız
 https://tv-trtspor2.medya.trt.com.tr/master_720.m3u8
-#EXTINF:-1 tvg-id="TRT Spor Yildiz" tvg-logo="http://ginikoturkish.com/channels/logo/trt-spor-yildiz-epg-.png" group-title="SPOR",TRT Spor Yıldız(Avrupa)
+#EXTINF:-1 tvg-id="TRTSporYildiz.tr" tvg-logo="http://ginikoturkish.com/channels/logo/trt-spor-yildiz-epg-.png" group-title="SPOR",TRT Spor Yıldız(Avrupa)
 https://trn03.tulix.tv/gt-trt-spor2/index.m3u8
 #EXTINF:-1 tvg-id="137" tvg-name="Euro Sport 1" tvg-logo="https://m.prectv60.lol/uploads/cache/channel_thumb/uploads/jpg/f40c9c2ad62bd4e3ff87d5859ea2bb54.jpg" group-title="SPOR", Euro Sport 1
 https://ds.ayakkabiparti.lol/euro1/index.m3u8
