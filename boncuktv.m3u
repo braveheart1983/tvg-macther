@@ -252,7 +252,7 @@ https://live.artidijitalmedya.com/artidijital_cine1/cine1/playlist.m3u8
 #EXTINF:-1 group-title="SİNEMA" tvg-id="ŞabanTV" tvg-logo="https://image.winudf.com/v2/image1/c2FiYW4udHZfaWNvbl8xNjAzODczNDgxXzAxMw/icon.png?w=280&fakeurl=1" ,Şaban TV
 https://catcast-tv.koprulu2.workers.dev/?id=49905.m3u8
 #EXTINF:-1 tvg-logo="https://tvlogo.nl/files/ch/TR/sinema_tv.png" group-title="SİNEMA",SINEMA TV FHD
-http://plusjustone.xyz:8080/play/live.php?mac=00:2A:01:90:E8:E5&stream=591415&extension=ts
+http://plusjustone.xyz:8080/play/live.php?mac=00:2A:01:90:E8:E5&stream=591415&extension=m3u8
 #EXTINF:-1 tvg-logo="https://tvlogo.nl/files/ch/TR/sinema_tv.png" group-title="SİNEMA",SINEMA TV HD
 http://plusjustone.xyz:8080/play/live.php?mac=00:2A:01:90:E8:E5&stream=591414&extension=ts
 #EXTINF:-1 tvg-logo="https://tvlogo.nl/files/ch/TR/sinema_tv_2.png" group-title="SİNEMA",SINEMA TV 2 FHD
