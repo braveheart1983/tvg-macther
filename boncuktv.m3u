@@ -355,6 +355,8 @@ https://boncuktv.sende-mi-brutus.workers.dev/tempo
 https://boncuktv.sende-mi-brutus.workers.dev/birtv
 #EXTINF:-1 group-title="EĞLENCE" tvg-id="KanalV.tr" tvg-logo="https://cdn.technettv.com/channel/20497/logo_256_1699959065.png" ,Kanal V
 https://boncuktv.sende-mi-brutus.workers.dev/kanalv
+#EXTINF:-1 group-title="EĞLENCE" tvg-id="Silktv" tvg-logo="https://yt3.googleusercontent.com/xEMqPQPeJLVBW-BHG7Q9beE08mnHT5o653SjgEDOz0YEPG6JP0InmJGUZHQbOxbVUE-c7wHx=s900-c-k-c0x00ffffff-no-rj" ,Silk Way
+https://github.com/ipstreet312/freeiptv/raw/refs/heads/master/ressources/tur/silkway.m3u8
 #EXTINF:-1 group-title="YEREL" tvg-id="AksuTV.tr" tvg-logo="https://cdn.technettv.com/channel/20119/logo_256_1699957266.png" ,Aksu TV
 https://boncuktv.sende-mi-brutus.workers.dev/aksutv
 #EXTINF:-1 group-title="AZERBAYCAN" tvg-id="DunyaTV.tr" tvg-logo="https://cdn.technettv.com/channel/14757/logo_256_1659593250.png" ,Dünya TV
