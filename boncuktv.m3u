@@ -180,7 +180,7 @@ https://live.duhnet.tv/S2/HLS_LIVE/dreamturknp/playlist.m3u8
 #EXTINF:-1 group-title="ULUSAL" tvg-id="TLC.tr" tvg-logo="https://feo.kablowebtv.com/resize/168A635D265A4328C2883FB4CD8FF/500/500/channels/logos/0de9fa25-120c-4b52-b460-e078531f6988.png" ,TLC
 https://trn03.tulix.tv/gt-tlc-tv/index.m3u8
 #EXTINF:-1 group-title="ULUSAL" tvg-id="DMAX.tr" tvg-logo="https://feo.kablowebtv.com/resize/168A635D265A4328C2883FB4CD8FF/500/500/channels/logos/6a63a310-1f7d-4d5c-b377-1e497f5b3610.png" ,DMAX
-https://yakala.atakann.workers.dev/?url=https://www.dmax.com.tr/canli-izle
+https://yakala.atakann.workers.dev/?url=https://www.dmax.com.tr/canli-izle&ext=m3u8
 #EXTINF:-1 group-title="ULUSAL" tvg-id="DMAX.tr" tvg-logo="https://feo.kablowebtv.com/resize/168A635D265A4328C2883FB4CD8FF/500/500/channels/logos/6a63a310-1f7d-4d5c-b377-1e497f5b3610.png" ,DMAX (Alternatif)
 https://trn03.tulix.tv/gt-dmax-tv/index.m3u8
 #EXTINF:-1 group-title="ULUSAL" tvg-id="A2.tr" tvg-logo="https://feo.kablowebtv.com/resize/168A635D265A4328C2883FB4CD8FF/0/0/Vod/HLS/fee44d61-2476-40ae-89eb-f51a7428789d.png" ,A2
