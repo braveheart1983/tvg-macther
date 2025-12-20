@@ -139,8 +139,8 @@ http://cdn4.yayin.com.tr/haberrize/tracks-v1a1/mono.m3u8
 https://ip100.radyotelekomtv.com:3968/stream/play.m3u8
 #EXTINF:-1 tvg-id="" tvg-logo="https://yt3.googleusercontent.com/qqCgfmRk-iSADAd3RsUqO5GD4001Sm19z3BkmzfKMiSqg8-rAbl6bFGyPt8X-zn0MxXZ87KE4w=s900-c-k-c0x00ffffff-no-rj" group-title="YEREL",VTV TURK TV
 http://145.239.37.125:20458/marstv/marstv/playlist.m3u8
-#EXTINF:-1 tvg-id="" tvg-logo="" group-title="YEREL",DEVELİ ÇAĞRI TV
-http://145.239.37.125:20458/develi/develi/playlist.m3u8
+#EXTINF:-1 tvg-id="" tvg-logo="https://develicagritv.com.tr/uploads/logo/CA%C4%9EROTVLOGO.png" group-title="YEREL",DEVELİ ÇAĞRI TV
+https://ferdi.tiviplayer.com/player/m3u8/d0fad63e28ba04493484eb146658bca2/chunklist_w471688266.m3u8
 #EXTINF:-1 tvg-id="" tvg-logo="https://files.igmd.org.tr/img/27012025-120433_Web%20G%C3%B6rseli740.jpg" group-title="SİNEMA",EKONOMİK TV
 http://ip252.ozelip.com:1935/ekonomiktv/ekonomiktv/chunklist.m3u8
 #EXTINF:-1 group-title="SPOR" tvg-id="TJKTv.tr" tvg-logo="https://cdn.technettv.com/channel/20826/logo_256_1699966834.png" ,TJK TV
