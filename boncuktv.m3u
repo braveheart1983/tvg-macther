@@ -115,33 +115,33 @@ https://vbtob9hyq58eiophct5qctxr2.medya.trt.com.tr/master.m3u8
 https://rxnE77JupTdEYKE3TytvGQWYh.medya.trt.com.tr/master.m3u8
 #EXTINF:-1 tvg-id="SıfırTV.tr" tvg-logo="https://foto.haberler.com/haber/2025/09/21/sifir-tv-canli-izleme-linki-var-mi-sifir-tv-19072148_8126_amp.jpg" group-title="SPOR",Sıfır TV
 https://ahr7chck.rocketcdn.com/sifirtv.stream/chunklist.m3u8
-#EXTINF:-1 tvg-id="" tvg-logo="" group-title="YEREL",Van65tv
+#EXTINF:-1 tvg-id="" tvg-logo="https://www.van65tv.com/assets/images/logo/logo.png" group-title="YEREL",Van65tv
 https://live.artidijitalmedya.com/artidijital_ort/ort/chunks.m3u8
-#EXTINF:-1 tvg-id="" tvg-logo="" group-title="YEREL",PENCERE TV MALATYA
+#EXTINF:-1 tvg-id="" tvg-logo="https://penceretv.com.tr/wp-content/uploads/2025/07/Kanal-Tv-Youtube-Kanali-Kurumsal-Logo-Tasarimi-230-x-60-piksel-1.png" group-title="YEREL",PENCERE TV MALATYA
 https://cdn-malatyapencere.yayin.com.tr/malatyapencere/malatyapencere/playlist.m3u8
 #EXTINF:-1 tvg-id="" tvg-logo="https://www.askertv.com/wp-content/uploads/2025/05/askertvlogo2.png" group-title="YEREL",ASKER TV
 https://tv.name.tr/canlitv/canlitv.m3u8
-#EXTINF:-1 tvg-id="" tvg-logo="" group-title="YEREL",AKDENİZ TV
+#EXTINF:-1 tvg-id="" tvg-logo="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT6y07sjykq-IonptwOQsfAnqA0CgZIofk0Qg&s" group-title="YEREL",AKDENİZ TV
 https://cdn-akdeniztv.yayin.com.tr/akdeniztv/akdeniztv/playlist.m3u8
-#EXTINF:-1 tvg-id="" tvg-logo="" group-title="YEREL",CHANNEL 6 TV
+#EXTINF:-1 tvg-id="" tvg-logo="https://www.kanal6tv.com/wp-content/uploads/2021/07/cropped-cropped-CHANNEL6TV_LOGO-2-1.png" group-title="YEREL",CHANNEL 6 TV
 https://cdn4.yayin.com.tr/channel6tv/tracks-v1a1/mono.m3u8
-#EXTINF:-1 tvg-id="" tvg-logo="" group-title="MÜZİK",FORA MÜZİK TV
+#EXTINF:-1 tvg-id="" tvg-logo="https://foramuzik.com/uploads/logo/s2.png" group-title="MÜZİK",FORA MÜZİK TV
 http://145.239.37.125:20458/foramuzik/foramuzik/playlist.m3u8
-#EXTINF:-1 tvg-id="" tvg-logo="" group-title="YEREL",YAĞMUR TV
+#EXTINF:-1 tvg-id="" tvg-logo="https://images.seeklogo.com/logo-png/23/1/yagmur-logo-png_seeklogo-235072.png" group-title="YEREL",YAĞMUR TV
 http://145.239.37.125:20458/yagmur/yagmur/playlist.m3u8
-#EXTINF:-1 tvg-id="" tvg-logo="" group-title="YEREL",Art World Antalya
+#EXTINF:-1 tvg-id="" tvg-logo="https://www.artworld.com.tr/images/site/rtuk-ana-yayin-logogif-174153-20251202.gif" group-title="YEREL",Art World Antalya
 https://live.artidijitalmedya.com/artidijital_artworld/artworld/chunks.m3u8
-#EXTINF:-1 tvg-id="" tvg-logo="" group-title="MÜZİK",MEGA TV 
+#EXTINF:-1 tvg-id="" tvg-logo="https://www.megatv.com.tr/wp-content/uploads/2025/08/alanya-son-dakika-haber.png" group-title="MÜZİK",MEGA TV 
 http://145.239.37.125:20458/megatv/megatv/playlist.m3u8
-#EXTINF:-1 tvg-id="" tvg-logo="" group-title="YEREL",HABER RİZE TV
+#EXTINF:-1 tvg-id="" tvg-logo="https://www.rizetvhaber.com/images/genel/rize-tv-haber-rize-tvnin-resmi-haber-sitesi-ardesen-haberleri-rize-haberleri-trabzon-haberleri-artvin-haberleri-giresun-haberleri-ordu-haberleri-samsun-haberleri-logo-1706021571.png" group-title="YEREL",HABER RİZE TV
 http://cdn4.yayin.com.tr/haberrize/tracks-v1a1/mono.m3u8
-#EXTINF:-1 tvg-id="" tvg-logo="" group-title="YEREL",TUZLA HABER TV
+#EXTINF:-1 tvg-id="" tvg-logo="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQtEN_A0oPAHbA0l0FnGZyKcnJ0XCJw6z2Vvg&s" group-title="YEREL",TUZLA HABER TV
 https://ip100.radyotelekomtv.com:3968/stream/play.m3u8
-#EXTINF:-1 tvg-id="" tvg-logo="" group-title="YEREL",VTV TURK TV
+#EXTINF:-1 tvg-id="" tvg-logo="https://yt3.googleusercontent.com/qqCgfmRk-iSADAd3RsUqO5GD4001Sm19z3BkmzfKMiSqg8-rAbl6bFGyPt8X-zn0MxXZ87KE4w=s900-c-k-c0x00ffffff-no-rj" group-title="YEREL",VTV TURK TV
 http://145.239.37.125:20458/marstv/marstv/playlist.m3u8
 #EXTINF:-1 tvg-id="" tvg-logo="" group-title="YEREL",DEVELİ ÇAĞRI TV
 http://145.239.37.125:20458/develi/develi/playlist.m3u8
-#EXTINF:-1 tvg-id="" tvg-logo="" group-title="SİNEMA",EKONOMİK TV
+#EXTINF:-1 tvg-id="" tvg-logo="https://files.igmd.org.tr/img/27012025-120433_Web%20G%C3%B6rseli740.jpg" group-title="SİNEMA",EKONOMİK TV
 http://ip252.ozelip.com:1935/ekonomiktv/ekonomiktv/chunklist.m3u8
 #EXTINF:-1 group-title="SPOR" tvg-id="TJKTv.tr" tvg-logo="https://cdn.technettv.com/channel/20826/logo_256_1699966834.png" ,TJK TV
 http://tjktv.ercdn.net/tjktv.m3u8
